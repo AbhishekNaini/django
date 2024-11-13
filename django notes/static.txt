@@ -1,0 +1,172 @@
+Working with static files:
+======================
+-->Up to this just we injected normal text data into templates by using template
+ tags.
+-->But sometimes our requirement is to insert static files like 
+images, css files etc... inside template file.
+
+Process to include static files inside templates:
+-----------------------------------------------------------------------
+1).Create folder named with 'static' inside main project folder.
+ It is exactly same as creating 'templates' folder.
+2).In that 'static' folder create 'images' folder to place image files.
+3).Add static directory path to settings.py file, so that 
+django can aware of our images.
+
+Create a project:
+-------------------------
+django-admin startproject staticfilesproject
+py manage.py startapp testapp
+Add app in settings.py
+
+settings.py
+----------------
+BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_DIR = BASE_DIR/'static'
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [STATIC_DIR]
+
+-->Make sure all the paths are correct or not
+		http://127.0.0.1:8000/static/images/sunny1.jpg
+
+-->Use templates tag to insert image.
+	At the beginning of HTML just after <!DOCTYPE html>, we have to include the template tag
+							{% load static %}
+-->Just we have to convey to the Django to load all static files.
+
+-->We have to incluse image as:
+		<img src="" alt="">
+
+views.py
+------------
+def result_view(request):
+    return render(request,'testapp/results.html')
+
+results.html
+------------------
+<!DOCTYPE html>
+{% load static %}
+<body>
+    <h1>The brand ambassodor for my class is:</h1>
+    <img src="{% static 'images/sunny1.jpg' %}" alt="">
+</body>
+
+Mahesh News Portal Application
+------------------------------------------------
+-->django-admin startproject maheshnewsproject
+-->py manage.py startapp testapp
+
+-->Add app in settings.py
+
+-->Create a folder 'templates'
+
+-->Update this one in settings.py
+	TEMPLATE_DIR = BASE_DIR/'templates'		
+
+-->Create a 'static' folder
+	Inside 'static' folder create 'css' and 'images' folders
+	STATIC_DIR = BASE_DIR/'static'
+	STATICFILES_DIRS = [STATIC_DIR]
+
+views.py
+-------------
+def news_info(request):
+    return render(request,'testapp/index.html')
+
+index.html
+----------------
+<!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/demo.css' %}">
+<body>
+    <h1>Welcome To MAHESH NEWS Portal</h1>
+    <img src="{% static 'images/news.jpg' %}" alt="">
+    <ul>
+      <li><a href="#">Movies Information</a></li>
+      <li><a href="#">Sports Information</a></li>
+      <li><a href="#">Politics Information</a></li>
+    </ul>
+</body>
+
+views.py
+-------------
+def movies_view(request):
+    head_msg = 'Movies Information'
+    sub_msg1 = 'Saripoda Sanivaram is very good movie'
+    sub_msg2 = 'Planning for Aashiqui-3 with Mahesh sir and Sunny Leone'
+    sub_msg3 = 'Dont go for movies.....practice Django'
+	type = 'movies'
+    my_dict = {'head_msg':head_msg, 'sub_msg1':sub_msg1, 'sub_msg2':sub_msg2, 'sub_msg3':sub_msg3}
+    return render(request,'testapp/news.html',my_dict)
+
+def sports_view(request):
+    head_msg = 'Sports Information'
+    sub_msg1 = 'Aus won the match England'
+    sub_msg2 = 'Next world cup will win india'
+    sub_msg3 = 'Upcoming indian team coach ????'
+    type = 'sports'
+    my_dict = {'head_msg':head_msg, 'sub_msg1':sub_msg1, 'sub_msg2':sub_msg2, 'sub_msg3':sub_msg3,'type':type}
+    return render(request,'testapp/news.html',my_dict)
+
+def politics_view(request):
+    head_msg = 'Politics Information'
+    sub_msg1 = 'India PM was Modi Ji'
+    sub_msg2 = 'AP CM was CBN'
+    sub_msg3 = 'AP dy.CM Pawan Kalyan'
+    type = 'politics'
+    my_dict = {'head_msg':head_msg, 'sub_msg1':sub_msg1, 'sub_msg2':sub_msg2, 'sub_msg3':sub_msg3,'type':type}
+    return render(request,'testapp/news.html',my_dict)
+
+news.html
+----------------
+<body>
+    <h1>{{head_msg}}</h1>
+    <ul>
+      <li>{{sub_msg1}}</li>
+      <li>{{sub_msg2}}</li>
+      <li>{{sub_msg3}}</li>
+    </ul>
+    {% if type == 'movies' %}
+    <img src="{% static 'images/1.jpg' %}" alt="">
+    <img src="{% static 'images/2.jpg' %}" alt="">
+    <img src="{% static 'images/3.jpg' %}" alt="">
+    {% elif type == 'sports' %}
+    <img src="{% static 'images/4.jpg' %}" alt="">
+    <img src="{% static 'images/5.jpg' %}" alt="">
+    <img src="{% static 'images/6.jpg' %}" alt="">
+    {% elif type == 'politics' %}
+    <img src="{% static 'images/7.jpg' %}" alt="">
+    <img src="{% static 'images/8.jpg' %}" alt="">
+    <img src="{% static 'images/9.jpg' %}" alt="">
+    {% endif %}
+  </body>
+
+demo.css
+--------------
+body{
+  background: yellow;
+  color: red;
+  text-align: center;
+}
+ul{
+  font-size: 20px;
+  text-align: left;
+}
+img{
+  height: 250px;
+  width: 300px;
+  margin: 25px;
+  border: 5px solid red;
+}
+
+urls.py
+----------
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', views.news_info),
+    path('movies/', views.movies_view),
+    path('sports/', views.sports_view),
+    path('politics/', views.politics_view),
+]
+

@@ -1,0 +1,169 @@
+How to install Django:
+====================
+-->Make sure python is already installed in our system
+D:\Mahesh_Classes>py --version
+Python 3.10.5
+
+-->Install django by using pip
+D:\Mahesh_Classes>pip install django==5.1
+
+-->To check the django version:
+D:\Mahesh_Classes>py -m django --version
+4.1
+
+IDE:Pycharm,Atom,Vscode............
+
+Django Project vs Django Application:
+--------------------------------------------------------
+-->A django project is a collection of applications and configurations which
+ forms a full web application.
+Ex:
+		Banking Project
+
+-->A django application is responsible to perform a particular task in our 
+entire web application.
+Ex:
+		loan app
+		registration app
+		polling app
+
+Project = Several Applications + Configuration Information.
+
+Note:
+	-->The django applications can be plugged into other projects. 
+    i.e these are re-usable(Pluggable Django Applications)
+	-->Without existing Django project there is no chance of existing 
+    Django application. Before creating any application first we have 
+    to create project.
+
+How to create Django project:
+---------------------------------------------
+-->Once we install Django, we will get django-admin command line tool, 
+which can be used to create our django project.
+
+D:\>mkdir DJANGO_27_AUG_730PM
+D:\>cd DJANGO_27_AUG_730PM
+D:\DJANGO_27_AUG_730PM>django-admin startproject firstproject
+							or
+D:\DJANGO_27_AUG_730PM>py -m django startproject firstproject
+
+D:\DJANGO_27_AUG_730PM>tree /f
+
+D:.
+└───firstproject
+    │   manage.py
+    │
+    └───firstproject
+            asgi.py
+            settings.py
+            urls.py
+            wsgi.py
+            __init__.py
+
+1.__init__.py:
+--------------------
+	It is a blank python script. Because of this special name, Django treated this
+     folder as python package.
+
+2.settings.py:
+--------------------
+	In this file we have to specify all our project settings and configurations 
+    like installed apps, middleware config, DB configurations etc....
+
+3.urls.py:
+--------------
+	Here we have to store all our url-patterns of our project.
+	For every view(web page), we have to define a separate url-pattern. 
+    End user can use url-patterns to access our web pages.
+
+4.wsgi.py:
+--------------
+	wsgi-->Web Server Gateway Interface
+	We can use this file while developing our application in
+     production/ online server.
+
+5.asgi.py:
+---------------
+	asgi-->Asynchronus Server Gateway Interface
+
+6.manage.py:
+-------------------
+	The most commonly used python script is manage.py
+	It is a command utility to interact with django project in various ways
+     like to run development server, run tests, create migrations etc......
+
+How to run Django development server:
+------------------------------------------------------------
+-->We have to move to the manage.py file location and we have to execute.
+	D:\DJANGO_27_AUG_730PM\firstproject>py manage.py runserver
+-->Now server will be started.
+
+How to send first request:
+	open one browser and send request:
+				http://127.0.0.1:8000/
+
+Role of Web Server:
+-------------------
+-->Web server will provide environemnt to run our web application.
+-->Web server is responsible to receive the request and forward request to the
+ corresponding web component based on url-pattern and to provide response to
+  the end user.
+-->Django framework is responsible to provide development server.
+ Even django framework provides inbuilt database sqlite.
+
+Note:
+	Once we started server a special DB related files will be generated in our project folder structure.
+
+Ceation of First Web Application:
+--------------------------------------------------
+Once we create Django project, we can create any number of applications
+ in that project.
+
+To create an application:
+		D:\DJANGO_28_AUG_730PM\firstproject>py manage.py startapp firstapp
+
+The following folder structure got created under firstapp
+├───firstapp
+│   │   admin.py
+│   │   apps.py
+│   │   models.py
+│   │   tests.py
+│   │   views.py
+│   │   __init__.py
+│   │
+│   └───migrations
+│           __init__.py
+
+1.__init__.py:
+-------------------
+	It is a blank python script. Because of this special name, 
+    Django treated as this folder as python package.
+
+2.admin.py:
+------------------
+	We can register our models in this file. 
+    Django will use these models with Django's admin interface.
+
+3.apps.py
+--------------
+	In this file we have to specify application's specific configurations.
+
+4.models.py
+------------------
+	In this file we have to store application's data models.
+
+5.tests.py
+---------------
+	In this file we have to specify test functions to test our code.
+
+6.views.py
+----------------
+	In this file we have to save functions that handles requests and return
+     required response.
+
+7.Migrations folder:
+	This directory stores database specific information related to models.
+
+Note:
+	The most important commonly used files in every project are views.py 
+    and models.py

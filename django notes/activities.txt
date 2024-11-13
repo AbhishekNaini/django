@@ -1,0 +1,339 @@
+Activities required for application
+--------------------------------------------------
+Activity-1:
+	Add our application in settings.py, so that Django aware about
+     our application.
+
+settings.py
+----------------
+INSTALLED_APPS = [
+	-----------
+    'firstapp'
+]
+
+Activity-2:
+	Create a view function for our application in views.py
+	View is responsible to prepare required response to 
+    the end user. i.e view contains business logic.
+	There are 2-types of views:
+			1).Function based views
+			2).Class based views
+-->In this application we are using function based views.
+
+views.py
+-------------
+from django.http import HttpResponse
+def display(request):
+    s = '<h1>Hello welcome to Django classes</h1>'
+    return HttpResponse(s)
+
+Note:
+	1).Each view will be specified as one function in views.py
+	2).In the above example display is the name of the function which is nothing but one view.
+	3).Each view should take atleast one argument(request).
+	4).Each view should return HttpResponse object with required response.
+
+-->View can accept request as input and perform required operations and provide proper response to the end user.
+
+Activity-3:
+	Define url-pattern for our view in urls.py file
+	This url-pattern will be used by end-user to send request for our views.
+	The 'urlpatterns' list routes URL's to views.
+
+urls.py
+----------
+from firstapp import views
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('greet/', views.display),
+]
+
+-->Whenever end user sending the request with
+ url-pattern:greet then display() function will be executed 
+ and provide required response.
+
+Activity-4:
+	start server and send the request.
+	py manage.py runserver
+	http://127.0.0.1:8000/greet/
+
+
+Q.Write Django application to send request to display server time as response
+--------------------------------------------------------------------------------------------------------------------
+D:\DJANGO_28_AUG_730PM>django-admin startproject secondproject
+D:\DJANGO_28_AUG_730PM>cd secondproject
+D:\DJANGO_28_AUG_730PM\secondproject>py manage.py startapp firstapp
+
+-->Add app in settings.py
+
+views.py
+-------------
+import datetime
+from django.http import HttpResponse
+def time_info(request):
+    date = datetime.datetime.now()
+    msg = '<h1>Hello Friends Good Evening!!!!</h1><hr>'
+    msg += '<h2>Now server time is:'+str(date)+'</h2>'
+    return HttpResponse(msg)
+
+urls.py
+---------
+path('time/',views.time_info)
+
+start server send request:
+	http://127.0.0.1:8000/time/
+
+Http Request flow in Django Application:
+------------------------------------------------------------
+-->Whenever end user sending the request first Django development server will get that request.
+-->From the request Django will identify url-patterns and by using urls.py, the corresponding view will be identified.
+-->The request will be forwarded to the view. The corresponding function will be executed and provide required response to the end user.
+
+Q.Write Django application to send request to display server time as response
+--------------------------------------------------------------------------------------------------------------------
+D:\DJANGO_28_AUG_730PM>django-admin startproject secondproject
+D:\DJANGO_28_AUG_730PM>cd secondproject
+D:\DJANGO_28_AUG_730PM\secondproject>py manage.py startapp firstapp
+
+-->Add app in settings.py
+
+views.py
+-------------
+import datetime
+from django.http import HttpResponse
+def time_info(request):
+    date = datetime.datetime.now()
+    msg = '<h1>Hello Friends Good Evening!!!!</h1><hr>'
+    msg += '<h2>Now server time is:'+str(date)+'</h2>'
+    return HttpResponse(msg)
+
+urls.py
+---------
+path('time/',views.time_info)
+
+start server send request:
+	http://127.0.0.1:8000/time/
+
+Q.Single application with multiple views
+------------------------------------------------------------
+D:\DJANGO_28_AUG_730PM>django-admin startproject maheshjobsproject
+D:\DJANGO_28_AUG_730PM>cd maheshjobsproject
+D:\DJANGO_28_AUG_730PM\maheshjobsproject>py manage.py startapp jobs
+
+-->Add app 'jobs' in settings.py
+
+views.py
+------------
+from django.http import HttpResponse
+def hyd_jobs_info(request):
+    s = '<h1>Hyderabad Jobs Information</h1>'
+    return HttpResponse(s)
+def bng_jobs_info(request):
+    s = '<h1>Bangalore Jobs Information</h1>'
+    return HttpResponse(s)
+def pune_jobs_info(request):
+    s = '<h1>Pune Jobs Information</h1>'
+    return HttpResponse(s)
+def bihar_jobs_info(request):
+    s = '<h1>Bihar Jobs Information</h1>'
+    return HttpResponse(s)
+
+urls.py
+----------
+from jobs import views
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('hyd/', views.hyd_jobs_info),
+    path('bng/', views.bng_jobs_info),
+    path('pune/', views.pune_jobs_info),
+    path('bihar/', views.bihar_jobs_info),
+]
+
+start server send request:
+	http://127.0.0.1:8000/hyd/
+	http://127.0.0.1:8000/pune/
+	http://127.0.0.1:8000/bng/
+	http://127.0.0.1:8000/bihar/
+
+Q.Based on time good mng, good aft, good evening & good night
+========================================================
+D:\DJANGO_28_AUG_730PM>django-admin startproject datetimeproject
+D:\DJANGO_28_AUG_730PM>cd datetimeproject
+D:\DJANGO_28_AUG_730PM\datetimeproject>py manage.py startapp testapp
+
+-->Add app 'testapp' in settings.py
+
+views.py
+-------------
+from django.http import HttpResponse
+import datetime
+def date_time_info(request):
+    date = datetime.datetime.now()
+    h = int(date.strftime('%H'))
+    msg = '<h1>Hello Guest Very '
+    if h < 12:
+        msg += 'Good Morning'
+    elif h < 16:
+        msg += 'Good Afternoon'
+    elif h < 21:
+        msg += 'Good Evening'
+    else:
+        msg += 'Good Night'
+    msg += '</h1><hr>'
+    msg += '<h1>Now the server time is:'+str(date)+'</h1>'
+    return HttpResponse(msg)
+
+urls.py
+----------
+path('time/',views.date_time_info)
+
+start server send request:
+	http://127.0.0.1:8000/time/
+
+Q.Single project with multiple applications
+-----------------------------------------------------------------
+D:\DJANGO_28_AUG_730PM>django-admin startproject multiappproject
+D:\DJANGO_28_AUG_730PM>cd multiappproject
+D:\DJANGO_28_AUG_730PM\multiappproject>py manage.py startapp firstapp
+D:\DJANGO_28_AUG_730PM\multiappproject>py manage.py startapp secondapp
+
+-->Add 'firstapp' and 'secondapp' in settings.py
+
+firstapp views.py
+-------------------------
+def wish1(request):
+    return HttpResponse('<h1>Hello This Is From First Application</h1>')
+
+secondapp views.py
+-----------------------------
+def wish2(request):
+    return HttpResponse('<h1>Hello This Is From Second Application</h1>')
+
+urls.py(first approach)
+---------------------------------
+from firstapp import views as v1
+from secondapp import views as v2
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('wish1/', v1.wish1),
+    path('wish2/', v2.wish2),
+]
+
+urls.py(second approach)
+-------------------------------------
+from firstapp.views import wish1
+from secondapp.views import wish2
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('wish1/', wish1),
+    path('wish2/', wish2),
+]
+
+Defining URL patterns at Application Level instead of Project Level:
+-----------------------------------------------------------------------------------------------------
+-->A django project can contains multiple applications and each application 
+contains multiple views. Defining url-pattern for all views of all applications 
+inside urls.py file of project creates maintenance problem and reduce re-usability 
+of applications.
+
+-->We can solve this problem by defining url-pattern at application level 
+instead of project level. For every application we have to create a separate
+ urls.py file and we have to define all that application specific urls in that
+  file. We have to link this application level urls.py file to project level
+   urls.py file by using include() function.
+
+Ex:
+D:\DJANGO_28_AUG_730PM>django-admin startproject baseproject
+D:\DJANGO_28_AUG_730PM>cd baseproject
+D:\DJANGO_28_AUG_730PM\baseproject>py manage.py startapp testapp
+
+-->Add app in settings.py
+
+views.py
+-------------
+from django.http import HttpResponse
+def first_view(request):
+    return HttpResponse('<h1>First View Response</h1>')
+def second_view(request):
+    return HttpResponse('<h1>Second View Response</h1>')
+def third_view(request):
+    return HttpResponse('<h1>Third View Response</h1>')
+
+-->Create a separate file urls.py file inside application(testapp)
+
+urls.py
+----------
+from django.urls import path
+from . import views
+urlpatterns = [
+    path('first/',views.first_view),
+    path('second/',views.second_view),
+    path('third/',views.third_view),
+]
+
+-->Include this application level urls.py inside project level urls.py file
+
+project level urls.py
+------------------------------
+from django.urls import path,include
+urlpatterns = [
+    path('testapp/',include('testapp.urls'))
+]
+
+start server and send request:
+	http://127.0.0.1:8000/testapp/first/
+	http://127.0.0.1:8000/testapp/second/
+
+Note:
+	We can see re-usability of application in other projects just
+     with only 2-lines addition.
+			1).settings.py--->Add application name
+			2).urls.py-->just add:path('ulsapp/',include('urlsapp.uls')
+
+Advantages:
+	1.It promotes re-usability of django applications across multiple projects.
+	2.Project level urls.py will be clean and more readable.
+
+Ex:
+D:\DJANGO_28_AUG_730PM>django-admin startproject applevelurlsproject
+D:\DJANGO_28_AUG_730PM>cd applevelurlsproject
+D:\DJANGO_28_AUG_730PM\applevelurlsproject>py manage.py startapp testapp
+
+views.py
+------------
+from django.http import HttpResponse
+def exams_view(request):
+    return HttpResponse('<h1>Exams View</h1>')
+def fees_view(request):
+    return HttpResponse('<h1>Fees View</h1>')
+def attendance_view(request):
+    return HttpResponse('<h1>Attendance View</h1>')   
+
+urls.py(Application Level)
+--------------------------------------
+from django.urls import path
+from . import views
+urlpatterns = [
+    path('exams/',views.exams_view),
+    path('fees/',views.fees_view),
+    path('attendance/',views.attendance_view),
+]
+
+Create another project:
+-----------------------------------
+D:\DJANGO_28_AUG_730PM>django-admin startproject maheshproject
+
+-->Copy testapp from applevelurlsproject and paste it in current project,
+ then include app level urls in project level urls.
+
+-->Add testapp in settings.py
+
+project level urls.py
+------------------------------
+from django.urls import path,include
+urlpatterns = [
+    path('testapp/',include('testapp.urls'))
+]
+
+http://127.0.0.1:8000/testapp/exams/
+http://127.0.0.1:8000/testapp/fees/

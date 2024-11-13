@@ -1,0 +1,298 @@
+Chapter-3:Django Tempaltes & Static File
+====================================
+-->It is not recommended to write html code inside python script(views.py file) 
+because:
+	1.It reduces readability because python code mized with HTML code.
+	2.No separation of roles. Python developers has to concentrate on both
+     python code and HTML code.
+	3.It does not promote re-usability of code.
+-->We can overcome these problems by separatring HTML code into a separate html
+ file. This html file is nothing but template.
+-->From the python file(views.py) we can use these templates based on our
+ requirement.
+-->We have to write templates at project level only, we can use these templates 
+in multiple applications.
+
+Python Stuff:
+===========
+pathlib-->module name
+Path -->ClassName
+
+pathlib module provides various classes representing file system paths based on
+ different operating system.
+
+from pathlib import Path
+print(__file__)#It return the name of the file:test.py
+fpath = Path(__file__)
+print(type(fpath))
+complete_path = fpath.resolve()
+print(complete_path)#D:\Mahesh_Classes\test.py
+print(Path(__file__).resolve().parent)#D:\Mahesh_Classes
+print(Path(__file__).resolve().parent.parent)#D:\
+
+o/p:
+D:\Mahesh_Classes>py test.py
+D:\Mahesh_Classes\test.py
+<class 'pathlib.WindowsPath'>
+D:\Mahesh_Classes\test.py
+D:\Mahesh_Classes
+D:\
+
+Note:
+	The main advantage of this approach is we are not required to hard code
+     system specific paths(locations) in python script.
+	
+MVC design pattern/architecture:
+	M-->Model(Business logic)
+	V-->View(Presentation logic)
+	C-->Controller(Co-ordination)
+
+MVT design pattern/architecture:
+	M-->Model
+	V--View(Business logic-->Python files)
+	T-->template(Presentation Layer)
+
+Steps to develop Template Based Application:
+=======================================
+1).D:\DJANGO_28_AUG_730PM>django-admin startproject templateproject
+2).D:\DJANGO_28_AUG_730PM>cd templateproject
+3).D:\DJANGO_28_AUG_730PM\templateproject>py manage.py startapp testapp
+
+4).Add app in settings.py
+
+5).Create a 'templates' folder inside MainProject Folder(templateproject)
+	In that 'templates' folder create a swparate folder named with 'testapp'
+     to hold that particular application specific templates.
+
+6).Add 'templates' folder to settings.py file so that django can aware of our 
+templates.
+
+TEMPLATES = [
+
+	'DIRS': [D:\DJANGO_28_AUG_730PM\templateproject\templates]
+]
+
+-->It is not recommended to hard code system specific  location in settings.py file.
+ To overcome this problem, we can generate template directory path programmatically as:
+			BASE_DIR = Path(__file__).resolve().parent.parent
+			TEMPLATE_DIR = BASE_DIR/'templates'
+
+-->Specify this TEMPLATE_DIR inside settings.py
+				'DIRS': [TEMPLATE_DIR]
+
+7).Create html file inside templates/testapp folder. This html file is nothing but template.
+
+wish.html
+--------------
+<body>
+    <h1>Welcome To Django Templates Demo</h1>
+    <h2>Second hero of django in MVT:Templates</h2>
+</body>
+
+8).Define function based view inside views.py file
+
+views.py
+------------
+from django.shortcuts import render
+def wish(request):
+    return render(request,'testapp/wish.html')
+
+urls.py
+-----------
+path('test/', views.wish),
+
+start server send request:
+	http://127.0.0.1:8000/test/
+
+Template Tags:
+-----------------------
+-->From python views.py we can inject dynamic content to the template file by 
+using template tags.
+-->Template tags also known as Template variables.
+-->Template tag syntax is not python syntax and not HTML syntax
+ it is a Django syntax.
+
+Template tag syntax for inserting text data:{{insert_data}}
+-------------------------------------------------------------
+This template tag we have to place inside template file(i.e html file)
+ and we have to provide insert_date value from the python views.py file.
+
+Application to send date and time from views.py to template file
+----------------------------------------------------------------
+views.py
+-------------
+import datetime
+def wish(request):
+    date = datetime.datetime.now()
+    my_dict = {'insert_date':date}
+    return render(request,'testapp/wish.html',context=my_dict)
+
+Note:
+	The values to the template variables should be passed from the view 
+  in the form of dictionary as argument to context.
+
+wish.html
+---------------
+<body>
+    <h1>Welcome To Django Templates Demo</h1>
+    <h2>Now server time is:{{insert_date}}</h2>
+</body>
+
+To display date,time and student info:
+---------------------------------------------------------
+views.py
+------------
+def wish(request):
+    date = datetime.datetime.now()
+    name = 'Sunny'
+    rollno = 101
+    marks = 98
+    my_dict = {'insert_date':date,'insert_name':name,'rollno':rollno,'marks':marks}
+    return render(request,'testapp/wish.html',my_dict)
+
+wish.html
+----------------
+<body>
+    <h1>Welcome To Django Templates Demo</h1>
+    <h2>Now server time is:{{insert_date}}</h2>
+    <ol>
+      <li>Name:{{insert_name}}</li>
+      <li>Marks:{{marks}}</li>
+      <li>Roo No:{{rollno}}</li>
+    </ol>
+  </body>
+
+Application to wish end user based on time
+-----------------------------------------------------------------
+views.py
+-------------
+def wish(request):
+    date = datetime.datetime.now()
+    msg = 'Hello Guest Very Very Good '
+    h = int(date.strftime('%H'))
+    if h <= 12:
+        msg += 'Morning'
+    elif h < 16:
+        msg += 'Afternoon'
+    elif h < 21:
+        msg += 'Evening'
+    else:
+        msg += 'Night'
+    my_dict = {'insert_date':date,'insert_msg':msg}
+    return render(request,'testapp/wish.html',my_dict)
+
+wish.html
+---------------
+<body>
+    <h1>{{insert_msg}}</h1>
+    <h2>Now server time is:{{insert_date}}</h2>
+</body>
+
+Application:
+------------------
+End-User:
+	Hello Friend, The current server time is:date and time
+	Course Information:
+		Name:Django
+		Prerequisite:Python
+		Current Batch Students are:
+
+1).django-admin startproject templateproject2
+2).py manage.py startapp testapp
+3).Add testapp in settings.py
+4).Create templates folder in main project folder.
+ Add TEMPLATE_DIR in settings.py
+
+views.py
+------------
+import datetime
+def info_view(request):
+    time = datetime.datetime.now()
+    name = 'Django'
+    prerequisite = 'Python'
+    my_dict = {'time':time,'name':name,'prerequisite':prerequisite}
+    return render(request,'testapp/results.html',my_dict)
+
+results.html
+------------------
+<body>
+    <h1>Hello Friends, The server Time Is:{{time}}</h1>
+    <h2>Course Name:{{name}}</h2>
+    <h2>Prerequisite:{{prerequisite}}</h2>
+    <ul>
+      <li>Good to get job very esily</li>
+      <li>Learning is also very easy</li>
+      <li>It is very very helpful for freshers....</li>
+    </ul>
+    <table border="3">
+      <thead>
+        <th>S.No</th>
+        <th>Name</th>
+        <th>Feedback</th>
+      </thead>
+      <tr>
+        <td>101</td>
+        <td>Radhika</td>
+        <td>Good</td>
+      </tr>
+      <tr>
+        <td>102</td>
+        <td>Lilly</td>
+        <td>Excellent</td>
+      </tr>
+    </table>
+  </body>
+
+  Astrology Project:
+================
+Hello Friend, Good Morning....
+Now server time is:
+Astrology:XXXXXXXXXXXXXXXX
+
+Creation of project:
+-----------------------------
+1).django-admin startproject astrologyproject
+2).py manage.py startapp testapp
+3).Add app in settings.py
+4).Create 'templates' and add in sttings.py
+
+views.py
+-------------
+import datetime,random
+def result_view(request):
+    msg_list = [
+    'The golden days a head',
+    'Better to sleep more time even in class',
+    'Tomorrow will be the best day of your life',
+    'Tomorrow is the perfect day to propose ur GF',
+    'Very soon you will get the job'
+    ]
+    names_list = ['sunny','radhika','lilly','katrina','kareena','deepika','samantha']
+    time = datetime.datetime.now()
+    h = int(time.strftime('%H'))
+    if h < 12:
+        s = 'Good Morning'
+    elif h < 16:
+        s = 'Good Afternoon'
+    elif h < 21:
+        s = 'Good Evening'
+    else:
+        s = 'Good Night'
+    name = random.choice(names_list)
+    msg = random.choice(msg_list)
+    my_dict = {'time':time,'name':name,'msg':msg,'wish':s}
+    return render(request,'testapp/astrology.html',my_dict)
+
+astrology.html
+----------------------
+<body>
+    <h1>Hello Friend,<span>{{wish}}</span></h1>
+    <h2>Now The Server Time Is:<span>{{time}}</span></h2>
+    <h1>Astrology Info For Mahesh Sir <span>{{msg}}</span></h1>
+    <h2>Very soon, you are going to get marriage with:<span>{{name}}</span></h2>
+</body>
+
+urls.py
+----------
+path('astr/',views.result_view)
+

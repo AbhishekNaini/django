@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>news portal</title>
+    <link rel="stylesheet" href="{% static 'css/demo.css' %}">
+</head>
+<body>
+    <h1 align="center">{{head_msg}}</h1>
+    <ul>
+        <li>{{sub_msg1}}</li>
+        <li>{{sub_msg2}}</li>
+        <li>{{sub_msg3}}</li>
+    </ul>
+    {% if type == 'movies' %}
+    <div class="movie">
+    <img src="{% static 'images/1.jpeg' %}">
+    <img src="{% static 'images/2.jpeg' %}">
+    <img src="{% static 'images/3.jpeg' %}">
+    </div>
+    {% elif type == 'sports' %}
+    <div class="sport">
+    <img src="{% static 'images/4.jpeg' %}">
+    <img src="{% static 'images/5.jpeg' %}">
+    <img src="{% static 'images/6.jpeg' %}">
+    </div>
+    {% elif type == 'politics' %}
+    <div>
+    <img src="{% static 'images/7.jpeg' %}">
+    <img src="{% static 'images/8.jpeg' %}">
+    <img src="{% static 'images/9.jpeg' %}">
+    </div>
+    {% endif %}
+</body>
+</html>

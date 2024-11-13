@@ -1,0 +1,16 @@
+Index:
+======
+Chapter-1: Introduction to Web development and Django
+Chapter-2: Django & Atom Installation and Development of First Web Application 
+Chapter-3: Django Templates and Static Files 
+Chapter-4: Working with Models and Databases 
+Chapter-5: Working with Django Forms 
+Chapter-6: Working with Django Model Forms 
+Chapter-7: Working with Advanced Template Features 
+Chapter-8: Session Management 
+Chapter-9: User Authentication and Authorization 
+Chapter-10: Class Based Views and CRUD Operations by using both CBVs and FBVs
+Chapter-11: Django ORM 
+Chapter-12: Working with Advanced Model Concepts
+Chapter-13: Working with Django Middleware
+Chapter-14: Deployment of our application in the Live Environment

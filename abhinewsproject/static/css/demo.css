@@ -1,0 +1,14 @@
+body{
+    background: rgb(234, 70, 70);
+    color: rgb(22, 91, 22);
+    text-align: center;
+}
+ul{
+    font-size: 20px;
+    text-align: left;
+}
+img{
+    height: 250px;
+    width: 300px;
+    margin: 5px solid rgb(110, 106, 106);
+}

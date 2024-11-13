@@ -1,0 +1,129 @@
+
+Working with Models and Databases:
+================================
+-->As part of web application development, we required to interact with database
+ to store our data and to retrieve our stored data.
+-->Django provides a in-built support for DB operations. Django provides one
+ in-built database sqlite3.
+-->For small to medium applications this DB is more enough, Django can provide 
+support for other databases also like oracle,Mysql,MongoDB etc......
+
+Database Configuration:
+------------------------------------
+-->Django bydefault provide sqlite3 DB. If we want to use this DB, we are not 
+required to do any configuration.
+-->The default sqlite3 configurations in settings.py file are declared as:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+Database connection with Mysql:
+-------------------------------------------------
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': ' djangodb_730pm',
+		'USER': 'root',
+		'PASSWORD': 'root',
+		'HOST': 'localhost',
+		'PORT': 3306,
+    }
+}
+
+Database connection with Oracle:
+--------------------------------------------------
+SQL> select * from global_name;
+GLOBAL_NAME
+-----------------------
+ORCL
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': 'ORCL',
+		'USER': 'scott',
+		'PASSWORD': 'tiger',
+		'HOST': 'localhost',
+		'PORT': 1521,
+    }
+}
+
+-->If we dont want to use sqlite3 DB then we have to configure
+ our own DB with the following parameters:
+		1).ENGINE:Name of the DB engine
+		2).NAME:Database name
+		3).USER:Database login user name
+		4).PASSWORD:Database login password
+		5).HOST:The machine on whicg database server is running
+		6).PORT:The port number on which database server is running.
+
+Note:Most of the times HOST and PORT are optional.
+
+How to check Django database Connection:
+-----------------------------------------------------------------
+We can check whether django DB configurations are properly
+configured or not by using the command from the shell.
+			>>>py manage.py shell
+>>> from django.db import connection
+>>> c = connection.cursor()
+-->If we are not getting any error means our
+ DB configurations are proper.
+
+Model Class:
+-------------------
+-->A model is a python class which contains DB information.
+-->It contains fields and behaviours of the data what we are 
+storing.
+-->Each model map to one database table.
+-->Every model is a python class which is the child class of
+(django.db.models.Model)
+-->Each attribute of the model represents database
+ field(Column name in table)
+-->We have to write all model class inside models.py file
+
+Create a project:
+===============
+django-admin startproject modelproject
+py manage.py startapp testapp
+Add app in settings.py
+
+models.py
+---------------
+class Employee(models.Model):
+    eno = models.IntegerField()
+    ename = models.CharField(max_length=30)
+    esal = models.FloatField()
+    eaddr = models.CharField(max_length=30)
+
+Note:
+	This model class will be converted into database table.
+	 Django is responsible for this conversion.
+
+table_name:appname_ClassName
+				 testapp_employee
+Fields:eno,ename,esal and eaddr and one extra field:id
+Behaviours:eno is of integer, ename is char.....
+Model  class = database table name + field name + field behaviours
+
+Converting Model class into Database SQL code:
+------------------------------------------------------------------------
+Once we write Model class, we have to migrate 
+the corresponding SQL code, for this we have to use
+ 'makemigrations'.
+
+D:\DJANGO_28_AUG_730PM\modelproject>py manage.py makemigrations
+
+How to see the corresponding SQL code of migrations:
+---------------------------------------------------------------------------------
+D:\DJANGO_28_AUG_730PM\modelproject>py manage.py sqlmigrate
+ testapp 0001
+
+BEGIN;
+--
+-- Create model Employee
+--
+CREATE TABLE "testapp_employee" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "eno" integer NOT NULL, "ename" varchar(30) NOT NULL, "esal" real NOT NULL, "eaddr" varchar(30) NOT NULL);
+COMMIT;

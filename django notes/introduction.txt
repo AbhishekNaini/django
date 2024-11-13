@@ -1,0 +1,99 @@
+Introduction to Web development and Django
+========================================
+Web Application:
+-------------------------
+The application which can be provided services over the web are called as web applications.
+Ex:
+		gmail,facebook.....
+
+Every web app have 2-components:
+	1.Front End
+	2.Back End
+
+1.Front End:
+	-->It represents what end user is seeing on the website.
+	-->We can develop front end component by using HTML,CSS,JS,Jquery & Bootstrap.
+
+HTML:
+	Hyper Text Markup Language
+	Every web application should contain HTML. i.e HTML is mandatory technology 
+	for web development. It represents structure of web page.
+
+CSS:Cascade Style Sheets
+	-->It is an optional technology, still web application contains CSS.
+	-->The main objective of CSS is to add styles to the HTML pages like colors,
+	 fonts,borders etc.....
+
+Java Script:
+	-->It allows to add interactivity to the web application including programming 
+	logic.
+	-->The main objective of java script is to add functionality to the HTML pages. i.e to add dynamic nature to the HTML pages.
+	
+		HTML-->Meant for static response
+		HTML + JS -->Meant for dynamic response.
+
+Ex-1:
+	To display 'Welcome To Django Classes' response to the end user only HTML is
+	 enough, bxoz it is static response.
+
+Ex-2:
+	To display current server data and time to the end user, only HTML is not 
+	enough we required to use some extra technology like JS,JSP,ASP,PHP etc 
+	as it is dynamic response.
+
+Static Response vs Dynamic Response:
+-----------------------------------------------------------
+-->If the response is not varied from time to time and person to person then
+ it is considered as static response.
+Ex:
+	login page of gmail
+	login page of facebook
+
+-->If the response is varied from time to time and person to person then
+ it is considered as dynamic response.
+Ex:
+	Inbox page of gmail
+	Inbox page of HDFC Bank
+
+2).Backend:
+------------------
+-->It is the technology used to decide what to show to the end user on the 
+front-end.
+-->i.e back end is responsible to generate required response to the end user,
+ which is displayed by the Front-End.
+-->Back-End have 3-components.
+		1.The language:Python,Java etc.....
+		2.The framework:Django,Flask,Pyramid........
+		3.The database like Oracle,Mysql,MongoDB.....
+
+-->For backend language python is the best choice bcoz:Simple and easy,concie code
+-->For framework Django is best.
+-->Django provides inbuilt DB sqlite-3.
+
+Django:
+=======
+-->Django is a web application framework.
+-->It is used to develop web applications.
+-->Django completely written in python programming language.
+-->It is high level, opensource python based web framework.
+-->DRY(Don't Repeat Yourself)
+-->It provides RAD(Rapid Application Development)
+-->It is based on MVT(Model View Template)
+-->Django maintained by DSF(Django Software Foundation)
+
+-->Django was created in **2003** as an internal project at Lowrence journal-world 
+news paper for their web development.
+-->The original authors of Django framework are:Adrian Holovaty,Simon Willison.
+-->After testing this framework with heavy traffics, developers released for the 
+public as opensource framework on july 21st 2005.
+-->The django was named in the memory of guitarist Django Reinhardt
+
+Top 5-features of Django:
+1).Fast
+2).Fully loaded
+3).Security
+4).Scalability
+5).Versatile
+
+https://docs.djangoproject.com/
+**abhi**
